@@ -1,0 +1,158 @@
+HELP DOC :: DYNAMIC TEXT GENERATOR 1.0
+	/*Price Clark
+	 *gpwclark@gmail.com
+	*/
+	1.) Overview:
+		This program allows you to take an excel document, in 
+		.csv format, and outputs its contents row by row into 
+		a text document or a .csv file while concatenating values
+		dynamically in the output. This customized output corresponds
+		to each row in the original .csv. For instance, if you have 
+		a spreadsheet with names in the first column, and
+		variables (either text or numbers) in the second column, this
+		program would allow you to output a paragraph of text
+		corresponding to each row (i.e. grabbing actual values 
+		from the .csv, and changing text output based on actual values
+		from the csv ). 
+
+	2.) STEPS
+		1. First, you must choose a .csv File and a .script 
+			file (If you don't have a .script file, make one in 
+			the text area, see section 3 for formatting a .script
+		 	file and a .csv file).
+		2. IMPORTANT: If the first row in your excel file is a header
+			or has variable names or something of that nature,
+			check the 'Skip first row' box, this will ensure
+			the Generator doesn't output something from the first
+			row that isn't actually your data.
+		3. From here you can generate a text file (.txt), the 
+			the 'Generate text file' button or a .csv file, the
+			'Generate CSV File' button (which excel knows). 
+			The text is also outputted to the text area. There 
+			are no line breaks within text entires to keep the 
+			text area useful as it is small.
+		4. The 'Refresh' button clears the text in the text area,
+			this is important as text is only ever appended to the
+			text area, which can quickly add up.
+		5. The 'Preview' button allows you to see what only 
+			one paragraph of your text document will look like.
+		6. To make a new .script file, you simply type the properly
+			formatted text into the text area (see section 3), 
+			and hit, the 'Generate .script File' button. The program
+			automatically saves it as a .script file in the 
+			location you specified.
+	3.) Formatting
+		a.) The .csv File
+			+ The "excel" file must be saved in .csv format
+			+ The .csv file can have a header row for variable
+			   names, but you must make sure to select the 
+			   option, 'Skip first row' in the 'Generate and 
+			   Preview New Script File' section.
+			+ Your .csv file must be completely rectangular!
+			  This means all columns listed have all the data
+			  entered into their corresponding row.
+		b.) The .script file
+			+ The .script file is made in the Dynamic Text
+			  Generator window. One simply types the 
+			  appropriate text into the text box, and hit
+			  'Generate .script File'.
+			+ A script file has three types of lines
+				*THIS SYNTAX BELOW MUST BE FOLLOWED EXACTLY
+				*DO NOT WORRY ABOUT SPACES before or after text.
+				
+				Sample .script file:
+
+				Hello,
+				1 			#presumably column of names
+				you made a
+				2 			#presumably column of numbers
+				which is a,
+				_2 1_low score_2_medium score_3_high score    #must be column
+																of numbers.
+
+				Sample output from 1 row:
+				Hello, <contents of cell 1> you made a <contents of cell 2>
+				which is a <assuming contents of column 2 = 1 > a low score.
+
+
+			+THE THREE TYPESOF LINES
+				1.) plain text: 'A normal string' which is out-
+					putted as text.
+				2.) a number: '1','10','22','300', etc.
+					>this number indicates the numerical position
+					of a column in the .csv file, the parser
+					actually goes to the column in the .csv file
+					and simply grabs the contents of the
+					cell and outputs them as text.
+				3.) An '_' followed by a number, followed by a space,
+				 	and then a series of numbers, '_', and text.
+				 	It looks like this
+				 		_9 1_low score___2_medium score___3_high score
+				 	The underscore indicates to the parser that it is
+				 	going to use conditional output. The parser goes to
+				 	the column that the number indicates, and gets a number,
+				 	it then compares this number, to the values listed, in
+				 	order, from 1 to 3. The number in the list that matches
+				 	the number from the cell has its corresponding text out-
+				 	putted as text.
+				 	>i.e. in the current row in column number 9, there is
+				 	a value of  2, the parser then outputs, medium score as
+					text.
+			ALL OF THE FORMATTING MUST BE EXACT.
+				a string <- any string, outputted directly as text
+				9 <- parser outputs the contents of the
+					cell in this column
+
+_9 1__bad___2_ok_3__great <- an underscore, a number, and then all of the 
+							possible numerical values that could be in the excel
+							sheet in column 9, followed by the text to be
+							outputted if that number occupies the cell.
+
+
+	4. EXAMPLE
+		for example, a .csv file that looks like this:
+			NOTE;
+				this is what a .csv file looks like as text. i.e.
+				not when it is in excel.
+
+					"Name","Score","Score","Score","Score","String"
+					"Jeremy(1)",1,1,1,1,"ONE"
+					"Daniel(2)",2,2,2,2,"TWO"
+					"Barry(3)",3,3,3,3,"THREE"
+					"Jane(4)",4,4,4,4,"FOUR"
+					"Nancy(5)",5,5,5,5,"FIVE"
+					"Lucy(6)",6,6,6,6,"SIX"
+
+
+
+
+
+		And a .script file that looks like this:
+				This is a test for
+				1
+				who received a 
+				_2 1__ONE__2__TWO__3__THREE_4__FOUR__5__FIVE
+				which hopefully matches. They also got a
+				4
+				_4 1__ONE__2__TWO__3__THREE_4__FOUR__5__FIVE
+				which hopefully double matches. A
+				2
+				should equal
+				*5
+
+
+		Generates a text document that looks like this:
+
+
+This is a test for Jeremy(1) who received a  ONE which hopefully matches. They also got a 1 ONE which hopefully double matches. A 1 should equal 1 
+
+This is a test for Daniel(2) who received a  TWO which hopefully matches. They also got a 2 TWO which hopefully double matches. A 2 should equal 2 
+
+This is a test for Barry(3) who received a  THREE which hopefully matches. They also got a 3 THREE which hopefully double matches. A 3 should equal 3 
+
+This is a test for Jane(4) who received a  FOUR which hopefully matches. They also got a 4 FOUR which hopefully double matches. A 4 should equal 4 
+
+This is a test for Nancy(5) who received a  FIVE which hopefully matches. They also got a 5 FIVE which hopefully double matches. A 5 should equal 5 
+
+This is a test for Lucy(6) who received a   [**ERROR::MATCH NOT FOUND**]  which hopefully matches. They also got a 6  [**ERROR::MATCH NOT FOUND**]  which hopefully double matches. A 6 should equal 6 
+
