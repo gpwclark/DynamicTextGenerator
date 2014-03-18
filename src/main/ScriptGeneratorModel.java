@@ -125,7 +125,8 @@ public class ScriptGeneratorModel {
 	}
 
 	public static String getHelpText(TextDisplayWindow window) throws IOException{
-		InputStream ins = ScriptGeneratorModel.class.getClassLoader().getResourceAsStream("./helpFiles/HELP.txt");
+		//InputStream ins = ScriptGeneratorModel.class.getClassLoader().getResourceAsStream("HELP.txt");
+		InputStream ins = 	ScriptGeneratorModel.class.getClass().getResourceAsStream("/main/HELP.txt");
 		byte[] b = new byte[ins.available()];
 		ins.read(b);
 		String text = new String(b);
@@ -138,7 +139,9 @@ public class ScriptGeneratorModel {
 	}
 	
 	public static String getHelpLinks(TextDisplayWindow window) throws IOException{
-		InputStream ins = ScriptGeneratorModel.class.getClassLoader().getResourceAsStream("./helpFiles/links.txt");
+		//InputStream ins = ScriptGeneratorModel.class.getClassLoader().getResourceAsStream("links.txt");
+		InputStream ins = 	ScriptGeneratorModel.class.getClass().getResourceAsStream("/main/links.txt");
+		
 		byte[] b = new byte[ins.available()];
 		ins.read(b);
 		String text = new String(b);

@@ -1,25 +1,15 @@
 package main;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.Insets;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.GridBagLayout;
-
-import javax.swing.JTextArea;
-
 import java.awt.GridBagConstraints;
-
-import javax.swing.JLabel;
-
-import java.awt.ScrollPane;
 import java.awt.TextArea;
 
+@SuppressWarnings("serial")
 public class TextDisplayWindow extends JFrame {
 
 	private JPanel contentPane;

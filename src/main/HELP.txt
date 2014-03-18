@@ -22,17 +22,18 @@ HELP DOC :: DYNAMIC TEXT GENERATOR 1.0
 			check the 'Skip first row' box, this will ensure
 			the Generator doesn't output something ridiculous.
 		3. From here you can generate a text file (.txt), the 
-			the 'Generate text file' button or a .csv file, the
-			'Generate CSV File' button (which excel knows). 
-			The text is also outputted to the text area. There 
-			are no line breaks within text entires 
+			the 'Generate 1 Text File' button, a .csv file, the
+			'Generate CSV File' button (which excel knows), or
+			multiple text files, the 'Generate N TextFiles'
+			button. The text is also outputted to the text area. 
+			There are no line breaks within text entries 
 			though to keep the text area useful as it is small.
 		4. The 'Refresh' button clears the text in the text area,
 			this is important as text is only ever appended to the
 			text area, which can quickly add up.
 		5. The 'Preview' button allows you to see what only 
 			one line of your text document will look like.
-		6.. Resetting* as of now, to genereate a new text file with
+		6.. Resetting* as of now, to generate a new text file with
 			a new .csv or .script file (or both) you need to 
 			exit the app and then re-open it.
 		7. To make a new .script file, you simply type the properly
@@ -86,50 +87,77 @@ HELP DOC :: DYNAMIC TEXT GENERATOR 1.0
 				 	>i.e. in the current row in column number 9, there is
 				 	a value of  2, the parser then outputs, medium score as
 					text.
+		c.)The title
+			+ The title is entered in the Text Field to the right of the 
+			'Generate N Text Files' Button. The text in this text field
+			becomes the title of each text file. DO NOT PUT A .txt
+			at the end of the string in the text field.
+				1.)The text in this text field can be formatted to allow
+				dynamic values. If you surround a number (that corresponds
+				to a column in the .csv file) with the '#' sign,
+				the file will output the value of the contents of the cell
+				at the specified position in the string.
+				2.)EXAMPLE:
+					If the text 'reportFor#1#On#2#' was entered into the text
+					field to the right of the 'Generate N Text Files' button
+					in an excel spreadsheet that looked like this
+					
+					Name | Date 
+					John | 6_22
+					Jan  | 6_23
+					
+					would create two text files
+					
+					reportForJohnOn6_22.txt
+					reportForJanOn6_23.txt
+					
+					*note Dynamic Text Generator appends the .txt file
+					extension.
+		
+	4.) Please Remember
 			ALL OF THE FORMATTING MUST BE EXACT.
-				a string <- any string, outputted directly as text
+				a string <- any string, outputs directly as text
 				9 <- any number, parser outputs the number in 
 						the cell in this column
-				*12 <- an asterik followed by any number, outputs 
+				*12 <- an asterisk followed by any number, outputs 
 						the string in the 
 						cell in this column
+					
 
-_9 1__bad___2_ok_3__great <- an underscore, a number, and then all of the 
-							possibel numerical values that could be in the excel
-							sheet in column 9, followed by the text to be
-							outputted if that number occupies the cell.
+		_9 1__bad___2_ok_3__great 
+		^
+		|_ an underscore, a number, and then all of the 
+			possible numerical values that could be in the excel
+			sheet in column 9, followed by the text to be
+			outputted if that number occupies the cell.
 
 
-	4. EXAMPLE
+	5.) Full Example
 		for example, a .csv file that looks like this:
 			NOTE;
 				this is what a .csv file looks like as text. i.e.
 				not when it is in excel.
 
-					"Name","Score","Score","Score","Score","String"
-					"Jeremy(1)",1,1,1,1,"ONE"
-					"Daniel(2)",2,2,2,2,"TWO"
-					"Barry(3)",3,3,3,3,"THREE"
-					"Jane(4)",4,4,4,4,"FOUR"
-					"Nancy(5)",5,5,5,5,"FIVE"
-					"Lucy(6)",6,6,6,6,"SIX"
+			"Name","Score","Score","Score","Score","String"
+			"Jeremy(1)",1,1,1,1,"ONE"
+			"Daniel(2)",2,2,2,2,"TWO"
+			"Barry(3)",3,3,3,3,"THREE"
+			"Jane(4)",4,4,4,4,"FOUR"
+			"Nancy(5)",5,5,5,5,"FIVE"
+					
 
-
-
-
-
-		And a .script file that looks like this:
-				This is a test for
-				1
-				who received a 
-				_2 1__ONE__2__TWO__3__THREE_4__FOUR__5__FIVE
-				which hopefully matches. They also got a
-				4
-				_4 1__ONE__2__TWO__3__THREE_4__FOUR__5__FIVE
-				which hopefully double matches. A
-				2
-				should equal
-				*5
+	And a .script file that looks like this:
+		This is a test for
+		1
+		who received a 
+		_2 1__ONE__2__TWO__3__THREE_4__FOUR__5__FIVE
+		which hopefully matches. They also got a
+		4
+		_4 1__ONE__2__TWO__3__THREE_4__FOUR__5__FIVE
+		which hopefully double matches. A
+		2
+		should equal
+		5
 
 
 		Generates a text document that looks like this:
@@ -144,6 +172,3 @@ This is a test for Barry(3) who received a  THREE which hopefully matches. They 
 This is a test for Jane(4) who received a  FOUR which hopefully matches. They also got a 4 FOUR which hopefully double matches. A 4 should equal 4 
 
 This is a test for Nancy(5) who received a  FIVE which hopefully matches. They also got a 5 FIVE which hopefully double matches. A 5 should equal 5 
-
-This is a test for Lucy(6) who received a   [**ERROR::MATCH NOT FOUND**]  which hopefully matches. They also got a 6  [**ERROR::MATCH NOT FOUND**]  which hopefully double matches. A 6 should equal 6 
-

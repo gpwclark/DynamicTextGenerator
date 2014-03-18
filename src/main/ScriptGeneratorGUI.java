@@ -234,7 +234,7 @@ public class ScriptGeneratorGUI extends JFrame {
 		gbc_btnGenerateCsvFile.gridy = 3;
 		contentPane.add(btnGenerateCsvFile, gbc_btnGenerateCsvFile);
 		
-		JButton btnNewButton_1 = new JButton("Generate N text files");
+		JButton btnNewButton_1 = new JButton("Generate N Text Files");
 		btnNewButton_1.setToolTipText("Click to make a text file for each row in the .csv");
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
 			@Override

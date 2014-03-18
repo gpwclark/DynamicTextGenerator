@@ -84,6 +84,7 @@ public class Controller {
 			}if(!textFile && generateFullScriptWithTextFile && consolidated){
 				saveCsvDoc(gui.getTextArea_1().getText());
 			}if(textFile && generateFullScriptWithTextFile && !consolidated){
+				
 				int k;
 				if(view.getCheckBox().isSelected())
 					k=1;
@@ -98,6 +99,7 @@ public class Controller {
 						k++;
 				}
 				saveMultipleTextDocs(gui.getTextArea_1().getText());
+				model.getDynamicTitleList().clear();
 			}else{
 					displayErrorWindow("Enter Title For Text Files");
 			}
@@ -328,6 +330,8 @@ public void loadHelpTextWindow() {
 		try {
 			TextDisplayWindow frame = new TextDisplayWindow("Help Doc Window");
 			frame.getTextArea().setText(ScriptGeneratorModel.getHelpText(frame));
+			Dimension D = new Dimension(750,400);
+			frame.setSize(D);
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
