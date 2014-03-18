@@ -21,9 +21,10 @@ public class ScriptWindowViewObserver {
 		
 	}
 
-	public void generateScriptFire(boolean textFile) throws IOException {
+	public void generateScriptFire(boolean textFile,boolean consolidated) throws IOException {
 		boolean generateFullScriptWithTextFile = true;
-		controller.generateText(generateFullScriptWithTextFile,textFile);
+		//TODO validate N Text File Name Entry
+		controller.generateText(generateFullScriptWithTextFile,textFile,consolidated);
 		
 	}
 
@@ -37,7 +38,7 @@ public class ScriptWindowViewObserver {
 		//Ignore next step, value of above boolean is for communicative value, the binary logic of the 
 		//function requires I make one false.
 		generateOneLineOfScriptOutputInPreview=!generateOneLineOfScriptOutputInPreview;
-		controller.generateText(generateOneLineOfScriptOutputInPreview,true);
+		controller.generateText(generateOneLineOfScriptOutputInPreview,true,false);
 		
 	}
 
@@ -56,6 +57,12 @@ public class ScriptWindowViewObserver {
 		// TODO Auto-generated method stub
 		controller.loadHelpTextWindow();
 	}
+
+	public void textFieldPressedFire() {
+		controller.clearTextField();
+		
+	}
+	
 
 
 	

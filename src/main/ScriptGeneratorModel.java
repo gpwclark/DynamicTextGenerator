@@ -24,6 +24,7 @@ public class ScriptGeneratorModel {
 	CSVReader reader;
 	List<String[]> csvMatrix;
 	ArrayList<String> scriptList = new ArrayList<String>();
+	ArrayList<String> dynamicTitleList = new ArrayList<String>();
 	
 	
 	public void setController(Controller newController){
@@ -84,7 +85,6 @@ public class ScriptGeneratorModel {
 	}
 	
 	public void loadScript() throws FileNotFoundException {
-		//TODO load script into script array
 		JFileChooser chooser = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 		"SCRIPT Files", "script");
@@ -125,7 +125,7 @@ public class ScriptGeneratorModel {
 	}
 
 	public static String getHelpText(TextDisplayWindow window) throws IOException{
-		InputStream ins = ScriptGeneratorModel.class.getClassLoader().getResourceAsStream("/HELP.txt");
+		InputStream ins = ScriptGeneratorModel.class.getClassLoader().getResourceAsStream("./helpFiles/HELP.txt");
 		byte[] b = new byte[ins.available()];
 		ins.read(b);
 		String text = new String(b);
@@ -138,7 +138,7 @@ public class ScriptGeneratorModel {
 	}
 	
 	public static String getHelpLinks(TextDisplayWindow window) throws IOException{
-		InputStream ins = ScriptGeneratorModel.class.getClassLoader().getResourceAsStream("/links.txt");
+		InputStream ins = ScriptGeneratorModel.class.getClassLoader().getResourceAsStream("./helpFiles/links.txt");
 		byte[] b = new byte[ins.available()];
 		ins.read(b);
 		String text = new String(b);
@@ -148,6 +148,12 @@ public class ScriptGeneratorModel {
 	        
 		
 		return helpText.toString();
+	}
+	public void addToDynamicTitleList(String title){
+		dynamicTitleList.add(title);
+	}
+	public ArrayList<String> getDynamicTitleList(){
+		return dynamicTitleList;
 	}
 	
 	

@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JCheckBox;
+import javax.swing.JTextField;
 
 /*
  * This class is the nuts and bolts for how the GUI interfaces with the rest of the program. Any time a change occurs,
@@ -32,8 +33,8 @@ import javax.swing.JCheckBox;
 	public void loadScriptSelected() throws FileNotFoundException{
 		observer.scriptSelectionFire();
 	}
-	public void generateScript(boolean textFile) throws IOException{
-		observer.generateScriptFire(textFile);
+	public void generateScript(boolean textFile,boolean consolidated) throws IOException{
+		observer.generateScriptFire(textFile,consolidated);
 	}
 	public void saveScriptSpecification() throws IOException{
 		
@@ -51,12 +52,6 @@ import javax.swing.JCheckBox;
 	public void clearpreview() {
 		gui.getTextArea_1().setText("");
 	}
-	public void displayPreviewSelection(String previewSelection){
-		// TODO Auto-generated method stub
-	}
-	public void displayScriptSelection(String scriptSelection){
-		// TODO Auto-generated method stub
-	}
 	public void csvNameChange(String newName) {
 		gui.getCsvLabel_1().setText(newName);
 	}
@@ -67,15 +62,20 @@ import javax.swing.JCheckBox;
 	public JCheckBox getCheckBox(){
 		return gui.getChckbxNewCheckBox();
 	}
-
+	
 	public void loadHelpLinksSelected() {
-		// TODO Auto-generated method stub
 		observer.HelpLinksSelectedFire();
 		
 	}
 	public void loadHelpTextSelected() {
-		// TODO Auto-generated method stub
 		observer.HelpTextSelectedFire();
+	}
+	public JTextField getNameOfNTextFiles() { //TODO
+		return gui.getNameOfNTextFiles();
+	}
+	public void textFieldPressed() {
+		observer.textFieldPressedFire();
+		
 	}
 
 	

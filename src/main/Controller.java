@@ -7,13 +7,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import au.com.bytecode.opencsv.CSVWriter;
+
 
 
 public class Controller {
@@ -30,20 +34,14 @@ public class Controller {
 		gui=newGui;
 	}
 	public void selectFile() throws FileNotFoundException {
-		//done through JfileChooser I guess
 		model.loadCSV();
-		String fileNameOfCsv = "whaaat"; //means nothing now
-		view.displayPreviewSelection(fileNameOfCsv);
 		
 	}
 	public void loadScript() throws FileNotFoundException {
-		//done through FileChooser I guess
 		model.loadScript();
-		String fileNameOfScript = "whaaat"; // means nothing now
-		view.displayPreviewSelection(fileNameOfScript);
 		
 	}
-	public void generateText(boolean generateFullScriptWithTextFile, boolean textFile) throws IOException {
+	public void generateText(boolean generateFullScriptWithTextFile, boolean textFile,boolean consolidated) throws IOException {
 		errorWindowDisplayed = false;
 		if(model.hasCsvAndScript()){
 		int matrixIndex=0;
@@ -59,14 +57,11 @@ public class Controller {
 					String currentLine = model.getScript().get(scriptIndex);
 					currentLine = currentLine.trim();
 	 				if(isIntChecker(currentLine)){
-	 					
 	 					currentScript=currentScript + model.getCsvElement(matrixIndex, Integer.parseInt(currentLine)-1) + " ";
-	 				
 	 				}else{
 	 					if(currentLine.charAt(0) == '_'){
 	 						currentScript = currentScript + dynamicOutputHandler(currentLine,matrixIndex) + " ";
-	 					}else if(currentLine.charAt(0) == '*'){
-	 						//TODO setting up functionality
+	 					}else if(currentLine.charAt(0) == '*'){//TODO get this outta here
 	 						int colNumber = getColumnNumber(currentLine);
 	 						currentScript = currentScript + model.getCsvElement(matrixIndex, colNumber-1) + " ";
 	 					}else{
@@ -84,18 +79,82 @@ public class Controller {
 				}
 				matrixIndex++;
 			}
-			if(textFile && generateFullScriptWithTextFile){
+			if(textFile && generateFullScriptWithTextFile && consolidated){
 				saveTextDoc(gui.getTextArea_1().getText());
-			}if(!textFile && generateFullScriptWithTextFile){
+			}if(!textFile && generateFullScriptWithTextFile && consolidated){
 				saveCsvDoc(gui.getTextArea_1().getText());
+			}if(textFile && generateFullScriptWithTextFile && !consolidated){
+				int k;
+				if(view.getCheckBox().isSelected())
+					k=1;
+				else{
+					k=0;
+				}
+				if(gui.getNameOfNTextFiles().getText()!="<Insert title for N files>" && gui.getNameOfNTextFiles().getText()!=""){
+				String[] titleTokens = parseDynamicTitle(gui.getNameOfNTextFiles().getText());
+				while(k<model.getCsvMatrix().size()){
+					String title = generateDynamicTitle(k,titleTokens);
+						model.addToDynamicTitleList(title);
+						k++;
+				}
+				saveMultipleTextDocs(gui.getTextArea_1().getText());
+			}else{
+					displayErrorWindow("Enter Title For Text Files");
 			}
-		}else{
-			displayErrorWindow("ERROR: Must load a .csv and a .script files");
+			
 		}
 			
-			
+		}else{
+			displayErrorWindow("ERROR: Must load a .csv and a .script files");
+		}		
 	}
-	
+	public void saveMultipleTextDocs(String text) { //TODO make sure called AFTER scanning is done.
+
+		ArrayList<String> listOfTitles= model.getDynamicTitleList();
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(text);
+		int i=0;
+		while(scanner.hasNext() && (i<listOfTitles.size())){ //TODO is this a bug?
+			FileMaker.makeFile(listOfTitles.get(i),scanner.nextLine());
+			if(scanner.hasNext()){
+				scanner.nextLine(); //TODO too hacky
+			}
+			i++;
+		}
+		
+	}
+	public String generateDynamicTitle(int matrixIndex, String[] titleTokens){
+		String title = "";
+		
+			int j=0;
+			while(j<titleTokens.length){
+				if(isIntChecker(titleTokens[j])){
+					title = title + model.getCsvElement(matrixIndex, Integer.parseInt(titleTokens[j])-1);
+				}else{
+					title = title + titleTokens[j];
+				}
+				j++;
+			}
+			title=title + ".txt";
+			return title;
+		
+		//need to do one things, separate strings and csv references,
+		// pull csv references,
+		//populate dynamicTitleList	
+	}
+	public String[] parseDynamicTitle(String fullTitle){
+		fullTitle = fullTitle.trim();
+		
+		String delims = "[#]+";
+		String[] tokens = fullTitle.split(delims);
+/*		int i =0;
+		while(i<tokens.length){
+			System.out.println(tokens[i]);
+			i++;
+		}*/
+		
+		return tokens;
+	}
 	private String dynamicOutputHandler(String currentLine,int matrixIndex){
 		int valueToSearchWith = 0;
 		try{
@@ -134,11 +193,11 @@ public class Controller {
 
 	private boolean isIntChecker(String stringToCheck){
 		boolean isInt;
-		try{
-			 Integer.parseInt(stringToCheck);
-			 isInt=true;
-			} catch (NumberFormatException e) {
-			  isInt=false;
+			try{
+				 Integer.parseInt(stringToCheck);
+				 isInt=true;
+			}catch (NumberFormatException e) {
+				 isInt=false;
 			}
 		return isInt;
 	}
@@ -276,6 +335,11 @@ public void loadHelpTextWindow() {
 
 
 
+}
+
+public void clearTextField() {
+	gui.getNameOfNTextFiles().setText("");
+	
 }
 	
 	

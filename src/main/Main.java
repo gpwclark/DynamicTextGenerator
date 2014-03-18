@@ -1,7 +1,12 @@
 package main;
 
 import java.awt.EventQueue;
-
+/**
+ * @author gpwclark 
+ * @email gpwclark at <gmail> dot com
+ * Dynamic Text From CSV Generator
+ *
+ */
 
 public class Main {
 	public static void main(String[] args){
