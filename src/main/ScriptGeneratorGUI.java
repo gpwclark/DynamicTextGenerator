@@ -2,35 +2,24 @@ package main;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.Component;
-
 import javax.swing.Box;
-
 import java.awt.GridBagLayout;
-
 import javax.swing.JButton;
-
 import java.awt.GridBagConstraints;
-
 import javax.swing.JLabel;
-
 import java.awt.Insets;
-
 import com.jgoodies.forms.factories.DefaultComponentFactory;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
